@@ -68,6 +68,16 @@ contract SphereVibe is Permissioned {
     Post storage post = myPost[postId_];
     post.likes = post.likes + 1;
   }
+  // flag Post
+  // to flag post you must have 15% credibility
+
+  function flagPost(uint256 postId_) external {
+    eaddress flagger = FHE.asEaddress(msg.sender);
+    uint256 percent = (15 * totalCredibility) / 100;
+    require(credibility[flagger] >= percent, "NOT_CREDIBLE");
+    Post storage post = myPost[postId_];
+    post.report = post.report + 1;
+  }
 
 
 
