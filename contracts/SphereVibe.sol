@@ -160,7 +160,16 @@ contract SphereVibe is Permissioned {
     return (contents, likes, reports);
   }
 
+  // if post is flagged hash the content
+  function flagPostStatus(uint256 postId_) external onlyOwner {
+    Post storage post = myPost[postId_];
+    post.flagged = true;
+  }
 
+  //   set total report post need
+  function setTotalReport(uint256 totalReport_) public onlyOwner {
+    totalReport = totalReport_;
+  }
 
   
 }
