@@ -108,7 +108,59 @@ contract SphereVibe is Permissioned {
     return totalTips[tipped];
   }
 
- 
+  // read single post
+  function readSinglePost(
+    Permission calldata perm,
+    uint256 postId_
+  )
+    public
+    view
+    onlySender(perm)
+    returns (string memory, uint256, uint256, euint256, eaddress)
+  {
+    string memory contents;
+    Post memory post = myPost[postId_];
+    if (post.flagged == true) {
+      // contents = FHE.sealoutput(post.content, perm.publicKey);
+      contents = "";
+    } else {
+      contents = post.content;
+    }
+
+    return (contents, post.likes, post.report, post.tips, post.creator);
+  }
+
+  // read all post
+
+  function readAllPost(
+    Permission calldata perm
+  )
+    external
+    view
+    onlySender(perm)
+    returns (string[] memory, uint256[] memory, uint256[] memory)
+  {
+    uint256 len = ids.length;
+    string[] memory contents = new string[](len);
+    uint256[] memory likes = new uint256[](len);
+    uint256[] memory reports = new uint256[](len);
+
+    for (uint256 i = 0; i < len; i++) {
+      Post storage post = myPost[i];
+      if (post.flagged == true) {
+        // contents[i] = FHE.sealoutput(post.content, perm.publicKey);
+        contents[i] = "";
+      } else {
+        contents[i] = post.content;
+      }
+      likes[i] = post.likes;
+      reports[i] = post.report;
+    }
+
+    return (contents, likes, reports);
+  }
+
+
 
   
 }
