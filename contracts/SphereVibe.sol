@@ -63,6 +63,13 @@ contract SphereVibe is Permissioned {
     // IERC20(token_).transferFrom(msg.sender,address(this), transferAmount);
     // Emmit event
   }
+  // like post
+  function likePost(uint256 postId_) external {
+    Post storage post = myPost[postId_];
+    post.likes = post.likes + 1;
+  }
+
+
 
   
 }
