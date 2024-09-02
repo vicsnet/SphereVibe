@@ -100,7 +100,15 @@ contract SphereVibe is Permissioned {
     totalTips[msg.sender] -= amount_;
   }
 
+  //   myTotalTip
+  function myAllTips(
+    Permission calldata perm,
+    address tipped
+  ) public view onlySender(perm) returns (uint256) {
+    return totalTips[tipped];
+  }
 
+ 
 
   
 }
