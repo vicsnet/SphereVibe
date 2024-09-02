@@ -50,6 +50,19 @@ contract SphereVibe is Permissioned {
     ids.push(id);
     // emit event
   }
+// tip post
+  function tip(uint256 postId_, euint256 tipAmount_, address token_) external {
+    Post storage post = myPost[postId_];
+    address creator = FHE.decrypt(post.creator);
+    uint256 transferAmount = FHE.decrypt(tipAmount_);
+    uint tAmount = FHE.decrypt(post.tips) + transferAmount;
+    euint256 totalAmount = FHE.asEuint256(tAmount);
+    post.tips = totalAmount;
+    totalTips[creator] += transferAmount;
+    IERC20(token_).transfer(address(this), transferAmount);
+    // IERC20(token_).transferFrom(msg.sender,address(this), transferAmount);
+    // Emmit event
+  }
 
   
 }
