@@ -34,5 +34,22 @@ contract SphereVibe is Permissioned {
     bool flagged;
   }
 
+  constructor() {
+    owner = msg.sender;
+  }
+  modifier onlyOwner() {
+    require(msg.sender == owner, "Not owner");
+    _;
+  }
+  // create post
+  function createPost(string memory _content, eaddress _creator) external {
+    uint256 id = postId++;
+    Post memory post = myPost[id];
+    post.content = _content;
+    post.creator = _creator;
+    ids.push(id);
+    // emit event
+  }
 
+  
 }
