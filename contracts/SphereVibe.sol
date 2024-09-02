@@ -41,6 +41,8 @@ contract SphereVibe is Permissioned {
     require(msg.sender == owner, "Not owner");
     _;
   }
+
+
   // create post
   function createPost(string memory _content, eaddress _creator) external {
     uint256 id = postId++;
@@ -50,6 +52,8 @@ contract SphereVibe is Permissioned {
     ids.push(id);
     // emit event
   }
+
+
 // tip post
   function tip(uint256 postId_, euint256 tipAmount_, address token_) external {
     Post storage post = myPost[postId_];
@@ -63,11 +67,15 @@ contract SphereVibe is Permissioned {
     // IERC20(token_).transferFrom(msg.sender,address(this), transferAmount);
     // Emmit event
   }
+
+
   // like post
   function likePost(uint256 postId_) external {
     Post storage post = myPost[postId_];
     post.likes = post.likes + 1;
   }
+
+
   // flag Post
   // to flag post you must have 15% credibility
 
@@ -77,6 +85,19 @@ contract SphereVibe is Permissioned {
     require(credibility[flagger] >= percent, "NOT_CREDIBLE");
     Post storage post = myPost[postId_];
     post.report = post.report + 1;
+  }
+
+
+  // withdrawTip
+  function withdrawTip(uint256 amount_, address token_) external {
+    uint256 balances = totalTips[msg.sender];
+    require(amount_ <= balances, "Insufficient Tip");
+    require(
+      IERC20(token_).balanceOf(address(this)) > amount_,
+      "TRY AGAIN LATER"
+    );
+    IERC20(token_).transferFrom(address(this), msg.sender, amount_);
+    totalTips[msg.sender] -= amount_;
   }
 
 
