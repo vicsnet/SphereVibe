@@ -11,6 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import Image from "next/image";
+import { openModal } from "@/redux/features/slices/upload_slice";
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,7 +19,10 @@ export default function Navbar() {
   const isConnect = useAppSelector(
     (state) => state.connectReducer.value.isConnect,
   );
+
   const isError = useAppSelector((state) => state.connectReducer.value.error);
+
+  
   // const [account, setAccount] = useState<string | null>(null);
   // const [web3Provider, setWeb3Provider] = useState<Web3 | null>(null);
   // const [contract, setContract]= useState<any>(null);
@@ -107,7 +111,7 @@ export default function Navbar() {
 </div>
 
         <ul className="flex gap-12 items-center">
-          <li className="text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33] ">
+          <li onClick={()=>dispatch(openModal())} className="text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33] cursor-pointer ">
             Upload Post
           </li>
           {
