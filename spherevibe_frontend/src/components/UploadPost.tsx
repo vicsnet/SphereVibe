@@ -3,17 +3,96 @@ import { closeModal } from "@/redux/features/slices/upload_slice";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import lighthouse from '@lighthouse-web3/sdk'
+
+import { useAppSelector } from "@/redux/store";
+import type { SupportedProvider } from "fhenixjs";
+import { EncryptionTypes, FhenixClient, EncryptedAddress } from "fhenixjs";
+import { Contract } from "ethers";
+import contractABI from "../contracts/ContractABI.json";
+import {contractAddress} from "../contracts/contract-address";
+
+
 
 export default function UploadPost() {
     const dispatch = useDispatch();
-  const [selectedImage, setSelectedImage] = useState<null | string>(null);
-  const [fileName, setFileName] = useState<null | string>(null);
+    const address = useAppSelector((state)=>state.connectReducer.value.account);
+    const provider = useAppSelector((state) =>state.connectReducer.value.web3Provider);
+    const signer = useAppSelector((state)=>state.connectReducer.value.signer);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    // const contract = useAppSelector((state)=>state.connectReducer.value.contract);
+  // const [selectedImage, setSelectedImage] = useState<null | string[]>([]);
+  const [fileName, setFileName] = useState<null | string>(null);
+  const [fileUrl, setFileUrl] = useState<null | string>(null);
+  const [content, setContent] = useState<null | string>(null);
+  const [jsonData, setJsonData] = useState({});
+  const [loading, setLoading] = useState(false);
+
+
+  // create a buffer for image
+  // create a json file save the buffer 
+const lightHouseApiKEy= ''
+
+// const progressCallback = (progressData:ProgressData) => {
+//   let percentageDone =
+//     100 - (progressData?.total / progressData?.uploaded)?.toFixed(2)
+//   console.log(percentageDone)
+// }
+  const uploadPoast =async(e)=>{
+    e.preventDefault();
+    setLoading(true);
+    const newJsonData = {
+      content: content,
+      image: fileUrl,
+    };
+  
+
+    if(provider && address && signer  !== null){
+  const client = new FhenixClient({provider: provider as SupportedProvider  });
+  
+
+    const resultAddress = await client.encrypt_address(address);
+
+    console.log(resultAddress.data);
+    
+    
+    const response = await lighthouse.uploadText(JSON.stringify(newJsonData), lightHouseApiKEy, JSON.stringify(resultAddress))
+    console.log(response.data.Hash);
+
+    console.log(contractAddress);
+    
+    const contract = new Contract(contractAddress, contractABI, signer);
+
+    // let txhash = await contract.createPost(response.data.Hash, resultAddress.data);
+    const txhash = await contract.createPost(response.data.Hash, resultAddress.data.BYTES_PER_ELEMENT);
+
+    console.log("hash", txhash.hash);
+
+    await txhash.wait();
+    console.log("tx mined");
+
+    
+
+    setLoading(false);
+ 
+
+}
+// to encrypt data for a Fhenix contract
+
+  } 
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files;
+    
     if (file) {
-      setSelectedImage(URL.createObjectURL(file));
-      setFileName(file.name);
+      setLoading(true);
+      const output = await lighthouse.upload(file, lightHouseApiKEy);
+      console.log("fileStatus:", output);
+      setFileUrl(output.data.Hash);
+      // setSelectedImage(URL.createObjectURL(file));
+      // setSelectedImage(file);
+      setFileName(file?.[0].name);
+      setLoading(false)
     }
   };
 
@@ -22,7 +101,7 @@ export default function UploadPost() {
   };
 
   return (
-    <section onClick={()=>dispatch(closeModal())} className="w-full h-full top-0 absolute backdrop-filter backdrop-brightness-75  ">
+    <section  className="w-full h-full top-0 absolute backdrop-filter backdrop-brightness-75  ">
       <div className=" w-[50%] bg-[#F3F9FF] pt-[30px] pb-[54px] rounded-2xl mx-auto mt-[154px]">
         <div className="w-[90%] mx-auto flex justify-end mb-5">
           {/* <Image src="" alt="close post upload" width={16} height={16} /> */}
@@ -35,6 +114,7 @@ export default function UploadPost() {
             rows={10}
             className="block w-[90%] mx-auto p-3 border border-[98A2B3] rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-inherit"
             placeholder="Free Your Mind..."
+            onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </div>
 
@@ -61,6 +141,7 @@ export default function UploadPost() {
                 width={24}
                 height={24}
                 onClick={handleImageClick}
+                className="cursor-pointer"
               />
               {fileName !== null && (
                 <p className="text-[17px] font-medium leading-[25.5px] tracking-[0.5%]">
@@ -70,7 +151,7 @@ export default function UploadPost() {
             </div>
           </div>
           <div className="">
-            <button className="text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#FEFEFE] bg-[#0F4880] px-[24px] rounded-lg py-[14px]">
+            <button onClick={uploadPoast} className="text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#FEFEFE] bg-[#0F4880] px-[24px] rounded-lg py-[14px]">
               Create Post
             </button>
           </div>

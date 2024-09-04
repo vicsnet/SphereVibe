@@ -1,17 +1,22 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Web3 from "web3";
+
 import contractABI from "../contracts/ContractABI.json";
-import contractAddress from "../contracts/contract-address";
+import {contractAddress} from "../contracts/contract-address";
+
 import {
   disconnectWallet,
   connectWallet,
   getError,
 } from "@/redux/features/slices/wallect_connect";
+
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import Image from "next/image";
 import { openModal } from "@/redux/features/slices/upload_slice";
+import { ethers } from "ethers";
+import { JsonRpcProvider } from "ethers";
+import { Contract } from "ethers";
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,42 +28,53 @@ export default function Navbar() {
   const isError = useAppSelector((state) => state.connectReducer.value.error);
 
   
-  // const [account, setAccount] = useState<string | null>(null);
-  // const [web3Provider, setWeb3Provider] = useState<Web3 | null>(null);
-  // const [contract, setContract]= useState<any>(null);
 
-  const connectWalletHandler = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      const web3 = new Web3(window.ethereum);
+  const connectWalletHandler =async  () => {
+    if (typeof window.ethereum !== "undefined" ) {
+    try {
+       
 
-      try {
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        const accounts: string[] = await web3.eth.getAccounts();
-        // setAccount(accounts[0]);
-        const contract = new web3.eth.Contract(contractABI, contractAddress);
-        dispatch(
-          connectWallet({
-            accounts: accounts[0],
-            web3Provider: web3,
-            contract,
-          }),
-        );
-        // setWeb3Provider(web3);
-        // setContract(contract);
-      } catch (error) {
-        const errorMsg = "user denied account accesss:";
-        dispatch(getError(errorMsg));
-        console.error("user denied account accesss:", error);
+        const provider =  new ethers.BrowserProvider(window.ethereum);
+
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+
+        const signer =  await provider.getSigner();
+
+        const account = await signer.getAddress();
+
+        // const contract = await new Contract(contractAddress, contractABI, provider);
+
+
+        let data ={
+          accounts: account,
+          web3Provider: provider,
+          signer: signer,
+          // contract
+        }
+
+        dispatch(connectWallet(data));
+
+       
+        
+      }  catch (err) {
+        console.error(err);
+        const msg ="Failed to connect to wallet."
+          dispatch(getError(msg))
+        // setError('Failed to connect to wallet.');
       }
-    } else {
-      alert("Please install Metamask");
     }
+      else {
+        const msg ="MetaMask is not installed. Please install it to use this dApp!"
+        dispatch(getError(msg))
+       
+      }
+    // dispatch(connectWallet());
   };
 
+
   const disconnectWalletHAndler = async () => {
-    // setAccount(null);
-    // setWeb3Provider(null);
-    // setContract(null)
+
     dispatch(disconnectWallet());
     console.log("Wallet disconnected");
   };

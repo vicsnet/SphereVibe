@@ -12,6 +12,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "target": "es6",
+    
+    "outDir": "./dist",
+    
     "plugins": [
       {
         "name": "next"
