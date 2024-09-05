@@ -18,6 +18,7 @@ import { ethers } from "ethers";
 import { JsonRpcProvider } from "ethers";
 import { Contract } from "ethers";
 
+
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
   const account = useAppSelector((state) => state.connectReducer.value.account);
@@ -43,14 +44,14 @@ export default function Navbar() {
 
         const account = await signer.getAddress();
 
-        // const contract = await new Contract(contractAddress, contractABI, provider);
+        const contract =  new Contract(contractAddress, contractABI, provider);
 
 
         let data ={
           accounts: account,
           web3Provider: provider,
           signer: signer,
-          // contract
+          contract
         }
 
         dispatch(connectWallet(data));

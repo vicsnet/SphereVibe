@@ -27,6 +27,8 @@ export default function UploadPost() {
   const [content, setContent] = useState<null | string>(null);
   const [jsonData, setJsonData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
 
 
   // create a buffer for image
@@ -38,12 +40,16 @@ const lightHouseApiKEy= ''
 //     100 - (progressData?.total / progressData?.uploaded)?.toFixed(2)
 //   console.log(percentageDone)
 // }
-  const uploadPoast =async(e)=>{
+  const uploadPoast =async(e:any)=>{
     e.preventDefault();
     setLoading(true);
+    const now = new Date();
+   
     const newJsonData = {
       content: content,
+      tags:tags,
       image: fileUrl,
+      time: now,
     };
   
 
@@ -81,6 +87,7 @@ const lightHouseApiKEy= ''
 
   } 
 
+
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files;
     
@@ -100,6 +107,29 @@ const lightHouseApiKEy= ''
     document?.getElementById("imageUpload")?.click();
   };
 
+ 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const words = inputValue.split(' ');
+
+      words.forEach((word) => {
+        if (word.startsWith('#') && word.length > 1 && !tags.includes(word)) {
+          setTags((prevTags) => [...prevTags, word]);
+         
+        }
+      });
+
+      setInputValue('');
+    }
+  };
+
+   // Remove tag function
+   const removeTag = (tagToRemove: string) => {
+    const updatedTags = tags.filter(tag => tag !== tagToRemove);
+    setTags(updatedTags);
+    
+  };
+
   return (
     <section  className="w-full h-full top-0 absolute backdrop-filter backdrop-brightness-75  ">
       <div className=" w-[50%] bg-[#F3F9FF] pt-[30px] pb-[54px] rounded-2xl mx-auto mt-[154px]">
@@ -116,8 +146,29 @@ const lightHouseApiKEy= ''
             placeholder="Free Your Mind..."
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
+          {/* hash Tags */}
+          <div className="mt-4">
+          <input
+        type="text"
+        value={inputValue}
+        onChange={(e)=>setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Type something and use #hashtags"
+        className="w-[90%] block mx-auto p-3 border border-[98A2B3] rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-inherit "
+      />
+          </div>
         </div>
-
+        {/* tags */}
+        <div className="w-[90%] mx-auto flex gap-2 flex-wrap mt-4">
+        {tags.map((tag, index) => (
+          <span key={index} className="text-[17px] text-[#505050] bg-slate-200 flex gap-3 px-3 py-2 rounded-lg">
+            {tag}
+            <button onClick={() => removeTag(tag)} className="text-ring-blue-500 cursor-pointer">
+              &times;
+            </button>
+          </span>
+        ))}
+      </div>
         <div className=" flex w-[90%] mx-auto justify-between items-center mt-[54px]">
           <div className="block">
             {/* <span className="sr-only">Choose profile photo</span> */}

@@ -15,7 +15,7 @@ type ConnectState = {
     account: null | string;
     web3Provider: null |ethers.BrowserProvider;
     signer: null | ethers.JsonRpcSigner;
-    // contract: null | Contract;
+    contract: null | Contract;
     error: null | string;
 
 }
@@ -28,7 +28,7 @@ const initialState ={
         account:null,
         web3Provider:null,
         signer:null,
-        // contract:null,
+        contract:null,
         error:null,
 
     } as ConnectState,
@@ -70,7 +70,7 @@ export const connect = createSlice({
             accounts: string;
             web3Provider: ethers.BrowserProvider;
             signer: ethers.JsonRpcSigner;
-            // contract: Contract
+            contract: Contract
           }>)=>{
             return{
                 value:{
@@ -79,7 +79,7 @@ export const connect = createSlice({
                     account: action.payload.accounts,
                     web3Provider:action.payload.web3Provider,
                     signer: action.payload.signer,
-                    // contract: action.payload.contract,
+                    contract: action.payload.contract,
                     error:null
                 }
             }
@@ -92,7 +92,7 @@ export const connect = createSlice({
                     account: null,
                     web3Provider:null,
                     signer: null,
-                    // contract:null,
+                    contract:null,
                     error:action.payload
                 }
             }
