@@ -95,7 +95,7 @@ export default function Navbar() {
         <Image src="/logo.svg" alt="Logo" width={200} height={44.85} />
 
         <ul className="flex items-center gap-8">
-          <li onClick={()=>dispatch(disable(false))} className={`text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33]  cursor-pointer hover:border-b-[#061D33] ${AllStatus === true && "border-b-[1px] cursor-pointer border-b-[#061D33] "}`}>
+          <li onClick={()=>dispatch(disable(true))} className={`text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33]  cursor-pointer hover:border-b-[#061D33] ${AllStatus === true && "border-b-[1px] cursor-pointer border-b-[#061D33] "}`}>
             Top Post
           </li>
           <li onClick={()=>dispatch(trendFeedClicked(true))} className={`text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33] hover:border-b-[1px] cursor-pointer hover:border-b-[#061D33] ${trendFeedStatus === true && "border-b-[1px] cursor-pointer border-b-[#061D33] "}`}>

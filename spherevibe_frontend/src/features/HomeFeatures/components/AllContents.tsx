@@ -23,6 +23,7 @@ export default function AllContents() {
   );
   const adderess = useAppSelector((state)=>state.connectReducer.value.account);
   const trendFeedStatus = useAppSelector((state)=>state.contentReducer.trendfeedStatus);
+  const AllState = useAppSelector((state)=>state.contentReducer.AllState);
 
   const [myContent, setMyContent] = useState<unknown[][]>([]);
 
@@ -76,7 +77,7 @@ export default function AllContents() {
           const response = await axios.get( `https://gateway.lighthouse.storage/ipfs/${dataArr}`);
           const { data } = response;
           const tags: string[] = data.tags;
-            console.log('tags fetched',data);
+            
             
           // Filter based on search query
           if (tags.some(tag => tag?.includes(searchQuery))) {
@@ -94,7 +95,7 @@ export default function AllContents() {
           console.error(`Error fetching data from ${dataArr}:`, error);
         }
       }
-      console.log('myale',tagOccurrences[searchQuery] || []);
+   
 
       setFilteredData(tagOccurrences[searchQuery] || []);
     };
@@ -150,18 +151,18 @@ export default function AllContents() {
       fetchDataAndSort();
 
     }
-      console.log('my sorted',sortedData);
+      
       
      
   
 
     
-  }, [provider, searchQuery, trendFeedStatus, sortedData ]);
+  }, [provider, searchQuery, trendFeedStatus, sortedData, filteredData, AllState  ]);
 
   return (
     <div>
       {
-        sortedData.length >0 &&
+        sortedData.length > 0 &&
 
       <div className="h-screen overflow-y-scroll">
         {sortedData.map((data)=>(
@@ -173,7 +174,7 @@ export default function AllContents() {
       </div>
       }
 
-{searchQuery !== "" && sortedData.length === 0?
+{searchQuery !== "" && sortedData.length === 0 && AllState === false?
      <div className="h-screen overflow-y-scroll">
      {
          filteredData.length > 0 ?

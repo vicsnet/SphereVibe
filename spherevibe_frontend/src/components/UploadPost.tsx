@@ -20,11 +20,11 @@ export default function UploadPost() {
     const provider = useAppSelector((state) =>state.connectReducer.value.web3Provider);
     const signer = useAppSelector((state)=>state.connectReducer.value.signer);
 
-    // const contract = useAppSelector((state)=>state.connectReducer.value.contract);
-  // const [selectedImage, setSelectedImage] = useState<null | string[]>([]);
+
   const [fileName, setFileName] = useState<null | string>(null);
   const [fileUrl, setFileUrl] = useState<null | string>(null);
   const [content, setContent] = useState<null | string>(null);
+  const [status, setStatus] = useState("");
   const [jsonData, setJsonData] = useState({});
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
@@ -35,72 +35,77 @@ export default function UploadPost() {
   // create a json file save the buffer 
 const lightHouseApiKEy= '1a923f6a.4a760197cd164956904d32346ee78e4e'
 
-// const progressCallback = (progressData:ProgressData) => {
-//   let percentageDone =
-//     100 - (progressData?.total / progressData?.uploaded)?.toFixed(2)
-//   console.log(percentageDone)
-// }
+
   const uploadPoast =async(e:any)=>{
     e.preventDefault();
     setLoading(true);
-    const now = new Date();
-   
-    const newJsonData = {
-      content: content,
-      tags:tags,
-      image: fileUrl,
-      time: now,
-    };
+    try {
+      
+      setStatus("Uploading ...")
+      const now = new Date();
+     
+      const newJsonData = {
+        content: content,
+        tags:tags,
+        image: fileUrl,
+        time: now,
+      };
+    
   
-
-    if(provider && address && signer  !== null){
-  const client = new FhenixClient({provider: provider as SupportedProvider  });
+      if(provider && address && signer  !== null){
+    const client = new FhenixClient({provider: provider as SupportedProvider  });
+    
   
-
-    const resultAddress = await client.encrypt_address(address);
-
-    console.log(resultAddress.data);
-    
-    
-    const response = await lighthouse.uploadText(JSON.stringify(newJsonData), lightHouseApiKEy, JSON.stringify(resultAddress))
-    console.log(response.data.Hash);
-
-    console.log(contractAddress);
-    
-    const contract = new Contract(contractAddress, contractABI, signer);
-
-    // let txhash = await contract.createPost(response.data.Hash, resultAddress.data);
-    const txhash = await contract.createPost(response.data.Hash, resultAddress.data.BYTES_PER_ELEMENT);
-
-    console.log("hash", txhash.hash);
-
-    await txhash.wait();
-    console.log("tx mined");
-
-    
-
-    setLoading(false);
+      const resultAddress = await client.encrypt_address(address);
+  
+      console.log(resultAddress.data);
+      
+      
+      const response = await lighthouse.uploadText(JSON.stringify(newJsonData), lightHouseApiKEy, JSON.stringify(resultAddress))
+      console.log(response.data.Hash);
+  
+      console.log(contractAddress);
+      
+      const contract = new Contract(contractAddress, contractABI, signer);
+  
+      // let txhash = await contract.createPost(response.data.Hash, resultAddress.data);
+      const txhash = await contract.createPost(response.data.Hash, resultAddress.data.BYTES_PER_ELEMENT);
+  
+      console.log("hash", txhash.hash);
+  
+      await txhash.wait();
+      console.log("tx mined");
+  
+      
+      setLoading(false);
+      dispatch(closeModal())
+      alert("Post Created")
+      }
+    } catch (error) {
+      alert("Error Occur try Again")
+    }
  
 
 }
-// to encrypt data for a Fhenix contract
 
-  } 
+
+  
 
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
     const file = event.target.files;
     
     if (file) {
-      setLoading(true);
+      setStatus("uploading...");
       const output = await lighthouse.upload(file, lightHouseApiKEy);
       console.log("fileStatus:", output);
       setFileUrl(output.data.Hash);
       // setSelectedImage(URL.createObjectURL(file));
       // setSelectedImage(file);
       setFileName(file?.[0].name);
-      setLoading(false)
     }
+    setLoading(false)
   };
 
   const handleImageClick = () => {
@@ -203,7 +208,7 @@ const lightHouseApiKEy= '1a923f6a.4a760197cd164956904d32346ee78e4e'
           </div>
           <div className="">
             <button onClick={uploadPoast} className="text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#FEFEFE] bg-[#0F4880] px-[24px] rounded-lg py-[14px]">
-              Create Post
+             {loading ? status : "Create Post"} 
             </button>
           </div>
         </div>
