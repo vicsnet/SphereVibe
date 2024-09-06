@@ -9,7 +9,7 @@ import TipForm from './components/TipForm'
 export default function HomeFeatures() {
   const openModal = useAppSelector((state)=>state.uploadModalReducer.isOpen);
   return (
-    <main>
+    <main className='max-h-screen overflow-y-hidden'>
        <Navbar/> 
        <AllContents/>
        {

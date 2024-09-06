@@ -44,7 +44,7 @@ export default function TipForm({id, close}: TipFormProps) {
       console.log("tokne approved");
       
 
-      const tx = await contractInteract.tip(id, result.data.BYTES_PER_ELEMENT, testToken);
+      const tx = await contractInteract.tip(id, result.data.buffer, testToken);
       console.log("LikedPost", tx.hash);
 
       await tx.wait();

@@ -12,21 +12,23 @@ import TipForm from "./TipForm"
 
 interface ContentProps{
  
-  hash: any,
+    content: any,
   likes: any,
   report: Number,
   item: Number,
   creator:any,
+  image:string,
+  tags:string[],
+  time:string
 }
-export default function Content({ hash, likes, report, item, creator }:ContentProps) {
-  const [content, setContent] = useState<null | string>(null);
-  const [image, setImage] = useState<null | string>(null);
+export default function FilteredContent({ content,  likes, report, item, creator, image, tags,time }:ContentProps) {
+
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
-  const [time, setTime] = useState("");
+  // const [time, setTime] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-  const [tags, setTags] = useState([])
+  // const [tags, setTags] = useState([])
 // open Tip modal
 const [openTip, setOpenTip] = useState(false);
   
@@ -65,23 +67,7 @@ const [openTip, setOpenTip] = useState(false);
     }
   };
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        `https://gateway.lighthouse.storage/ipfs/${hash}`,
-      );
-      console.log(response.data);
 
-      setContent(response.data?.content);
-      setImage(response.data?.image);
-      setTime(response.data.time);
-      setTags(response.data.tags)
-      setLoading(false);
-    } catch (err) {
-      setError("Error fetching data");
-      setLoading(false);
-    }
-  };
 
   function timeAgoFromDB(dbDate: string): string {
     const messageTime = new Date(dbDate); // Convert ISO string to Date object
@@ -102,14 +88,7 @@ const [openTip, setOpenTip] = useState(false);
   }
   
   useEffect(() => {
-    if (hash === undefined) {
-      setLoading(true);
-      console.log("Loading....");
-      console.log(hash);
-    } else {
-      fetchData();
-      setLoading(false);
-    }
+   
     if (item) {
       data();
     }
@@ -121,12 +100,12 @@ const [openTip, setOpenTip] = useState(false);
       
   
     }
-  }, [hash, content, image, item]);
+  }, [ content, image, item]);
 
   return (
     <div className="">
 
-    <section key={item.toString()} className="w-[50%] border-b-[1px] boreder-b-[#98A2B3] mx-auto pb-[12px]">
+    <section key={item?.toString()} className="w-[50%] border-b-[1px] boreder-b-[#98A2B3] mx-auto pb-[12px]">
       <div className="flex gap-2">
         <h2 className="text-[17px] leading-[25.5px] tracking-[0.5%] text-[#505050]">
           @{Number(creator)}
@@ -141,7 +120,7 @@ const [openTip, setOpenTip] = useState(false);
           {content}
         </p>
         {/* tags */}
-        <div className=" flex gap-2 flex-wrap mb-2 ">
+        <div className=" flex gap-2 flex-wrap  mb-2">
           {tags && tags?.length > 0 &&
             tags.map((tag)=>(
               <p className="text-[16px] leading-5 text-[#1d2a37]">{tag}</p>

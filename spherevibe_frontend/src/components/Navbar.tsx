@@ -17,11 +17,15 @@ import { openModal } from "@/redux/features/slices/upload_slice";
 import { ethers } from "ethers";
 import { JsonRpcProvider } from "ethers";
 import { Contract } from "ethers";
+import { disable, search, trendFeedClicked } from "@/redux/features/slices/content_slice";
 
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
   const account = useAppSelector((state) => state.connectReducer.value.account);
+
+  const trendFeedStatus = useAppSelector((state)=>state.contentReducer.trendfeedStatus)
+  const AllStatus = useAppSelector((state)=>state.contentReducer.AllState)
   const isConnect = useAppSelector(
     (state) => state.connectReducer.value.isConnect,
   );
@@ -80,25 +84,7 @@ export default function Navbar() {
     console.log("Wallet disconnected");
   };
   useEffect(() => {
-    // if (typeof window.ethereum !== 'undefined'){
-    //     const web3 = new Web3(window.ethereum);
-    //     const connectWallet = async() =>{
-    //         try {
-    //             await window?.ethereum?.request({method: "eth_requestAccounts"});
-    //             const accounts = await web3.eth.getAccounts();
-    //             setAccount(accounts[0]);
-    //             // Listen to account changed
-    //             window?.ethereum?.on("accountsChanged", (accounts) =>{
-    //                 setAccount(accounts[0])
-    //             })
-    //         } catch (error) {
-    //             console.error("User denied account access:",error)
-    //         }
-    //     };
-    //     connectWallet();
-    // }else{
-    //     console.log("Metamas is not installed");
-    // }
+   
   }, []);
 
   return (
@@ -109,10 +95,10 @@ export default function Navbar() {
         <Image src="/logo.svg" alt="Logo" width={200} height={44.85} />
 
         <ul className="flex items-center gap-8">
-          <li className="text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33] ">
+          <li onClick={()=>dispatch(disable(false))} className={`text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33]  cursor-pointer hover:border-b-[#061D33] ${AllStatus === true && "border-b-[1px] cursor-pointer border-b-[#061D33] "}`}>
             Top Post
           </li>
-          <li className="text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33] ">
+          <li onClick={()=>dispatch(trendFeedClicked(true))} className={`text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33] hover:border-b-[1px] cursor-pointer hover:border-b-[#061D33] ${trendFeedStatus === true && "border-b-[1px] cursor-pointer border-b-[#061D33] "}`}>
             Trend Feed
           </li>
         </ul>
@@ -124,7 +110,7 @@ export default function Navbar() {
   <span className="absolute inset-y-0 left-0 flex items-center pl-2">
   <Image src="/search-normal.svg" alt="search" width={16} height={16} />
   </span>
-  <input className="placeholder:italic placeholder:text-slate-400 block  w-full border border-slate-300 rounded-[36px] py-4 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder="Search ..." type="text" name="search"/>
+  <input onChange={(e)=>dispatch(search(e.target.value))} className="placeholder:italic placeholder:text-slate-400 block  w-full border border-slate-300 rounded-[36px] py-4 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder="Search ..." type="text" name="search"/>
 </div>
 
         <ul className="flex gap-12 items-center">

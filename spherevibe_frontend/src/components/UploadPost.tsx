@@ -33,7 +33,7 @@ export default function UploadPost() {
 
   // create a buffer for image
   // create a json file save the buffer 
-const lightHouseApiKEy= ''
+const lightHouseApiKEy= '1a923f6a.4a760197cd164956904d32346ee78e4e'
 
 // const progressCallback = (progressData:ProgressData) => {
 //   let percentageDone =
