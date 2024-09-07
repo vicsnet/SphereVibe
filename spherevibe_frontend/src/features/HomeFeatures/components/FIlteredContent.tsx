@@ -92,6 +92,7 @@ const [openTip, setOpenTip] = useState(false);
     if (item) {
       data();
     }
+
     if(time){
       
       let date = timeAgoFromDB(time);
@@ -100,10 +101,10 @@ const [openTip, setOpenTip] = useState(false);
       
   
     }
-  }, [ content, image, item,  time]);
+  }, [ content, image, item,  time, data()]);
 
   return (
-    <div className="" key={item?.toString()}>
+    <div className="" >
 
     <section className="w-[50%] border-b-[1px] boreder-b-[#98A2B3] mx-auto pb-[12px]">
       <div className="flex gap-2">
