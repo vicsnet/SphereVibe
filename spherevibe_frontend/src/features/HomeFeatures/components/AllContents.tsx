@@ -169,9 +169,9 @@ export default function AllContents() {
 
       <div className="h-screen overflow-y-scroll">
         {sortedData.map((data, item)=>(
-          <div className="mt-2">
+          <div key={item} className="mt-2">
           
-          <FilteredContent key={item} content={data.content} likes={data[2]}  report={data[3]} item={data.id} creator={data[4]} image={data.image} tags={data.tags} time={data.time}/>
+          <FilteredContent  content={data.content} likes={data[2]}  report={data[3]} item={data.id} creator={data[4]} image={data.image} tags={data.tags} time={data.time}/>
           </div>
         ))}
       </div>
