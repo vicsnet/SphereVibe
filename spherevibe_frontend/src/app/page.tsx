@@ -1,10 +1,10 @@
-import HomeFeatures from "@/features/HomeFeatures/pages";
+import HomePages from "@/pages/HomePages/pages";
 import Image from "next/image";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <HomeFeatures/>
+      <HomePages/>
     </main>
   );
 }
