@@ -101,7 +101,7 @@ const [openTip, setOpenTip] = useState(false);
       
   
     }
-  }, [ content, image, item,  time, data()]);
+  }, [ content, image, item,  time, ]);
 
   return (
     <div className="" >
@@ -123,8 +123,8 @@ const [openTip, setOpenTip] = useState(false);
         {/* tags */}
         <div className=" flex gap-2 flex-wrap  mb-2">
           {tags && tags?.length > 0 &&
-            tags.map((tag)=>(
-              <p className="text-[16px] leading-5 text-[#1d2a37]">{tag}</p>
+            tags.map((tag, item)=>(
+              <p key={item} className="text-[16px] leading-5 text-[#1d2a37]">{tag}</p>
             ))
           }
         </div>
