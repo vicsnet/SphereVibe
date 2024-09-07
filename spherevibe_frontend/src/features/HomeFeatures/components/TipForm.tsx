@@ -1,3 +1,4 @@
+"use client"
 import { contractAddress, testToken } from "@/contracts/contract-address";
 import { useAppSelector } from "@/redux/store";
 import { Contract } from "ethers";

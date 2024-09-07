@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import Content from "./Content";
 import { useAppSelector } from "@/redux/store";

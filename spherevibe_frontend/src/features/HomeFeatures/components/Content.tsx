@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import lighthouse from "@lighthouse-web3/sdk";

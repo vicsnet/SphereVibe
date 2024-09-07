@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     images: {
-      domains: ['gateway.lighthouse.storage'],
+      domains: ['https://gateway.lighthouse.storage'],
     },
 };
 
