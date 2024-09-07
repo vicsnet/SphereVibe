@@ -53,7 +53,7 @@ export default function AllContents() {
       (response as unknown[][]).map((arr) => arr[index])
     ) || [];
 
-   console.log('ddsss',combinedData);
+  //  console.log('ddsss',combinedData);
    
     setMyContent(combinedData);
     };
@@ -70,7 +70,7 @@ export default function AllContents() {
         const likes = array[2]
         const reports =array[3];
         const creator = array[4]
-        console.log("da", dataArr);
+        // console.log("da", dataArr);
         
 
         try {
@@ -134,7 +134,7 @@ export default function AllContents() {
   
           return bTagCount - aTagCount; // Sort descending (highest first)
         });
-  console.log("sorted", sorted);
+  // console.log("sorted", sorted);
   
         setSortedData(sorted);
       } catch (error) {
@@ -146,7 +146,10 @@ export default function AllContents() {
 
   useEffect(() => {
     data();
-    fetchDataAndFilter();
+    if(searchQuery){
+
+      fetchDataAndFilter();
+    }
     if(trendFeedStatus){
       fetchDataAndSort();
 
@@ -157,7 +160,7 @@ export default function AllContents() {
   
 
     
-  }, [provider, searchQuery, trendFeedStatus, sortedData, filteredData, AllState  ]);
+  }, [provider, searchQuery, trendFeedStatus, filteredData, AllState,  ]);
 
   return (
     <div>

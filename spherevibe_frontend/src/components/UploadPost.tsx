@@ -8,7 +8,7 @@ import lighthouse from '@lighthouse-web3/sdk'
 import { useAppSelector } from "@/redux/store";
 import type { SupportedProvider } from "fhenixjs";
 import { EncryptionTypes, FhenixClient, EncryptedAddress } from "fhenixjs";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import contractABI from "../contracts/ContractABI.json";
 import {contractAddress} from "../contracts/contract-address";
 
@@ -56,20 +56,22 @@ const lightHouseApiKEy= '1a923f6a.4a760197cd164956904d32346ee78e4e'
     const client = new FhenixClient({provider: provider as SupportedProvider  });
     
   
-      const resultAddress = await client.encrypt_address(address);
-  
-      console.log(resultAddress.data);
+      const resultAddress:any = await client.encrypt_address(address);
+
+          
       
       
       const response = await lighthouse.uploadText(JSON.stringify(newJsonData), lightHouseApiKEy, JSON.stringify(resultAddress))
-      console.log(response.data.Hash);
-  
-      console.log(contractAddress);
+      
       
       const contract = new Contract(contractAddress, contractABI, signer);
+      const encryptedAddressHex = ethers.hexlify(resultAddress.data);
+      console.log('new encryption type',encryptedAddressHex);
+      console.log('new encryption type',resultAddress.data);
   
       // let txhash = await contract.createPost(response.data.Hash, resultAddress.data);
-      const txhash = await contract.createPost(response.data.Hash, resultAddress.data.BYTES_PER_ELEMENT);
+      const txhash = await contract.createPost(response.data.Hash, resultAddress.data.
+        BYTES_PER_ELEMENT);
   
       console.log("hash", txhash.hash);
   
@@ -81,8 +83,9 @@ const lightHouseApiKEy= '1a923f6a.4a760197cd164956904d32346ee78e4e'
       dispatch(closeModal())
       alert("Post Created")
       }
-    } catch (error) {
-      alert("Error Occur try Again")
+    } catch (error:any) {
+      alert(`Error Occur try Again ${error}`)
+      setLoading(false)
     }
  
 
