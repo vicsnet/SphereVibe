@@ -100,7 +100,7 @@ const [openTip, setOpenTip] = useState(false);
       
   
     }
-  }, [ content, image, item, data, time]);
+  }, [ content, image, item,  time]);
 
   return (
     <div className="" key={item?.toString()}>

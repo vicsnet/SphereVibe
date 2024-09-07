@@ -169,7 +169,7 @@ export default function AllContents() {
 
       <div className="h-screen overflow-y-scroll">
         {sortedData.map((data, item)=>(
-          <div key={item} className="mt-2">
+          <div  className="mt-2">
           
           <FilteredContent  content={data.content} likes={data[2]}  report={data[3]} item={data.id} creator={data[4]} image={data.image} tags={data.tags} time={data.time}/>
           </div>
@@ -184,7 +184,7 @@ export default function AllContents() {
         <>
         {filteredData.map((data, item)=>
         (
-          <div key={item} className="mt-2">
+          <div  className="mt-2">
             
           <FilteredContent content={data.content} likes={data[2]}  report={data[3]} item={data[0]} creator={data[4]} image={data.image} tags={data.tags} time={data.time}/>
           </div>
@@ -202,7 +202,7 @@ export default function AllContents() {
       :
        <div className="h-screen overflow-y-scroll">
        { myContent.map((data, item)=>(
-        <div key={item} className="mt-2">
+        <div className="mt-2">
 
           <Content creator={data[4]} item={Number(data[0])} hash={data[1]} likes={Number(data[2])} report={Number(data[3])} />
         </div>

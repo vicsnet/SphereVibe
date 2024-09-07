@@ -121,12 +121,12 @@ const [openTip, setOpenTip] = useState(false);
       
   
     }
-  }, [hash, content, image, item, data, time, fetchData]);
+  }, [hash, content, image, item, time, fetchData]);
 
   return (
-    <div className="">
+    <div key={item.toString()} className="">
 
-    <section key={item.toString()} className="w-[50%] border-b-[1px] boreder-b-[#98A2B3] mx-auto pb-[12px]">
+    <section  className="w-[50%] border-b-[1px] boreder-b-[#98A2B3] mx-auto pb-[12px]">
       <div className="flex gap-2">
         <h2 className="text-[17px] leading-[25.5px] tracking-[0.5%] text-[#505050]">
           @{Number(creator)}
