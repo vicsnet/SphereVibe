@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import contractABI from "../contracts/ContractABI.json";
 import {contractAddress} from "../contracts/contract-address";
@@ -15,7 +15,6 @@ import { AppDispatch, useAppSelector } from "@/redux/store";
 import Image from "next/image";
 import { openModal } from "@/redux/features/slices/upload_slice";
 import { ethers } from "ethers";
-import { JsonRpcProvider } from "ethers";
 import { Contract } from "ethers";
 import { disable, search, trendFeedClicked } from "@/redux/features/slices/content_slice";
 
@@ -30,7 +29,7 @@ export default function Navbar() {
     (state) => state.connectReducer.value.isConnect,
   );
 
-  const isError = useAppSelector((state) => state.connectReducer.value.error);
+  // const isError = useAppSelector((state) => state.connectReducer.value.error);
 
   
 
@@ -51,7 +50,7 @@ export default function Navbar() {
         const contract =  new Contract(contractAddress, contractABI, provider);
 
 
-        let data ={
+        const data ={
           accounts: account,
           web3Provider: provider,
           signer: signer,

@@ -1,6 +1,6 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
+import { createSlice, PayloadAction} from "@reduxjs/toolkit"
 import { Contract } from "ethers";
-import { ethers, JsonRpcProvider } from "ethers";
+import { ethers,  } from "ethers";
 // import Web3 from "web3";
 
 
@@ -35,29 +35,6 @@ const initialState ={
 } as InitialState;
 
 
-// export const connectWallet = createAsyncThunk(
-//     'wallectConnect/connectWallet',
-//     async (_, { rejectWithValue }) => {
-//       if (typeof window.ethereum === "undefined") {
-//         return rejectWithValue("MetaMask is not installed. Please install it to use this dApp!");
-//       }
-  
-//       try {
-//         const provider = new ethers.BrowserProvider(window.ethereum);
-//         await window.ethereum.request({ method: 'eth_requestAccounts' });
-//         const signer = await provider.getSigner();
-//         const account = await signer.getAddress();
-  
-//         return {
-//           accounts: account,
-//           web3Provider: provider,
-//           signer: signer,
-//         };
-//       } catch (err) {
-//         return rejectWithValue("Failed to connect to wallet.");
-//       }
-//     }
-//   );
 
 export const connect = createSlice({
     name: "wallectConnect",
@@ -98,25 +75,7 @@ export const connect = createSlice({
             }
         }
     },
-    extraReducers: (builder) => {
-        // builder
-        //   .addCase(connectWallet.fulfilled, (state, action) => {
-        //     state.value.isConnect = true;
-        //     state.value.isError = false;
-        //     state.value.account = action.payload.accounts;
-        //     state.value.web3Provider = action.payload.web3Provider;
-        //     state.value.signer = action.payload.signer;
-        //     state.value.error = null;
-        //   })
-        //   .addCase(connectWallet.rejected, (state, action) => {
-        //     state.value.isConnect = false;
-        //     state.value.isError = true;
-        //     state.value.account = null;
-        //     state.value.web3Provider = null;
-        //     state.value.signer = null;
-        //     state.value.error = action.payload as string;
-        //   });
-      }
+    
 })
 
 export const {disconnectWallet, connectWallet,  getError} = connect.actions;

@@ -7,7 +7,7 @@ import lighthouse from '@lighthouse-web3/sdk'
 
 import { useAppSelector } from "@/redux/store";
 import type { SupportedProvider } from "fhenixjs";
-import { EncryptionTypes, FhenixClient, EncryptedAddress } from "fhenixjs";
+import {  FhenixClient, } from "fhenixjs";
 import { Contract, ethers } from "ethers";
 import contractABI from "../contracts/ContractABI.json";
 import {contractAddress} from "../contracts/contract-address";
@@ -25,7 +25,7 @@ export default function UploadPost() {
   const [fileUrl, setFileUrl] = useState<null | string>(null);
   const [content, setContent] = useState<null | string>(null);
   const [status, setStatus] = useState("");
-  const [jsonData, setJsonData] = useState({});
+  // const [jsonData, setJsonData] = useState({});
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
@@ -36,7 +36,7 @@ export default function UploadPost() {
 const lightHouseApiKEy= '1a923f6a.4a760197cd164956904d32346ee78e4e'
 
 
-  const uploadPoast =async(e:any)=>{
+  const uploadPoast =async(e: React.MouseEvent<HTMLButtonElement>)=>{
     e.preventDefault();
     setLoading(true);
     try {
@@ -56,7 +56,7 @@ const lightHouseApiKEy= '1a923f6a.4a760197cd164956904d32346ee78e4e'
     const client = new FhenixClient({provider: provider as SupportedProvider  });
     
   
-      const resultAddress:any = await client.encrypt_address(address);
+      const resultAddress = await client.encrypt_address(address);
 
           
       
@@ -83,7 +83,7 @@ const lightHouseApiKEy= '1a923f6a.4a760197cd164956904d32346ee78e4e'
       dispatch(closeModal())
       alert("Post Created")
       }
-    } catch (error:any) {
+    } catch (error) {
       alert(`Error Occur try Again ${error}`)
       setLoading(false)
     }

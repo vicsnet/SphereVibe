@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import lighthouse from "@lighthouse-web3/sdk";
+// import lighthouse from "@lighthouse-web3/sdk";
 import axios from "axios";
 
 import { FaRegThumbsUp, FaWallet } from "react-icons/fa";
@@ -172,7 +172,7 @@ const [openTip, setOpenTip] = useState(false);
               color: likeStatus === true ? "red" : "initial",
             }}
           />
-          <p className="text-[#505050] text-[17px]">{Number(likes) === 0 ? "" : likes}</p>
+          <p className="text-[#505050] text-[17px]">{likes === 0 ? "" : likes}</p>
         </div>
       
       {/* Tip */}

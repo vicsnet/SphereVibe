@@ -7,14 +7,7 @@ import { contractAddress } from "@/contracts/contract-address";
 import axios from "axios";
 import FilteredContent from "./FIlteredContent";
 
-// type DataObject = {
-//   hash: string;
-//   likes: number;
-//   report: number;
-// };
-interface DataObject {
-  [key: string]: number[];
-}
+
 export default function AllContents() {
   const contract = useAppSelector(
     (state) => state.connectReducer.value.contract,
@@ -130,8 +123,8 @@ export default function AllContents() {
         // Step 2: Sort updatedDataArray by the most frequent tag occurrence
         const sorted = [...updatedDataArray].sort((a, b) => {
           // Get the sum of tag occurrences for each content item
-          const aTagCount = a.tags?.reduce((count:any, tag:any) => count + (tagCount[tag] || 0), 0) || 0;
-          const bTagCount = b.tags?.reduce((count:any, tag:any) => count + (tagCount[tag] || 0), 0) || 0;
+          const aTagCount = a.tags?.reduce((count:number, tag:string) => count + (tagCount[tag] || 0), 0) || 0;
+          const bTagCount = b.tags?.reduce((count:number, tag:string) => count + (tagCount[tag] || 0), 0) || 0;
   
           return bTagCount - aTagCount; // Sort descending (highest first)
         });
