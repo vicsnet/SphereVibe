@@ -160,7 +160,7 @@ export default function AllContents() {
   
 
     
-  }, [provider, searchQuery, trendFeedStatus, filteredData, AllState,  ]);
+  }, [provider, searchQuery, trendFeedStatus, filteredData, AllState,  data, fetchDataAndFilter, fetchDataAndSort]);
 
   return (
     <div>
