@@ -130,4 +130,4 @@ Decisions about content moderation, platform policies, and feature development a
 
 ### **Conclusion**
 
-This PRD outlines the strategic vision for a decentralized social media platform designed to empower users, protect freedom of speech, and resist censorship. By addressing the problems inherent in centralized platforms and proposing robust, decentralized solutions, this platform aims to create a secure, inclusive, and user-driven digital space. The identified risks will be carefully managed to ensure the platform’s success and sustainability in the evolving digital landscape.
+This document outlines the strategic vision for a decentralized social media platform designed to empower users, protect freedom of speech, and resist censorship. By addressing the problems inherent in centralized platforms and proposing robust, decentralized solutions, this platform aims to create a secure, inclusive, and user-driven digital space. The identified risks will be carefully managed to ensure the platform’s success and sustainability in the evolving digital landscape.
