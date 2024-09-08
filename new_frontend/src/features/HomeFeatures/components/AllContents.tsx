@@ -64,7 +64,7 @@ export default function AllContents() {
         const likes = array[2]
         const reports =array[3];
         const creator = array[4]
-        // console.log("da", dataArr);
+        console.log("da", creator);
         
 
         try {
@@ -107,6 +107,7 @@ export default function AllContents() {
             const content = ipfsData.content;
             const image = ipfsData.image;
             const time = ipfsData.time;
+            
   
             return { ...item, tags, content, image, time }; // Add the tags to the content item
           })
@@ -128,7 +129,7 @@ export default function AllContents() {
   
           return bTagCount - aTagCount; // Sort descending (highest first)
         });
-  // console.log("sorted", sorted);
+  console.log("sorted", sorted);
   
         setSortedData(sorted);
       } catch (error) {
@@ -180,7 +181,7 @@ export default function AllContents() {
         (
           <div key={item} className="mt-2">
             
-          <FilteredContent content={data.content} likes={data[2]}  report={data[3]} item={data[0]} creator={data[4]} image={data.image} tags={data.tags} time={data.time}/>
+          <FilteredContent content={data.content} likes={data.ikes}  report={data.reports} item={data.id} creator={data.creator} image={data.image} tags={data.tags} time={data.time}/>
           </div>
         )
         )}

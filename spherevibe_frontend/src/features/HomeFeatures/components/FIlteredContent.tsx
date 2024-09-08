@@ -1,8 +1,8 @@
 "use client"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import lighthouse from "@lighthouse-web3/sdk";
-import axios from "axios";
+// import lighthouse from "@lighthouse-web3/sdk";
+// import axios from "axios";
 
 import { FaRegThumbsUp, FaWallet } from "react-icons/fa";
 import { useAppSelector } from "@/redux/store";
@@ -13,18 +13,18 @@ import TipForm from "./TipForm"
 
 interface ContentProps{
  
-    content: any,
-  likes: any,
-  report: Number,
-  item: Number,
-  creator:any,
+    content: string,
+  likes: number,
+  report: number,
+  item: number,
+  creator:number,
   image:string,
   tags:string[],
   time:string
 }
 export default function FilteredContent({ content,  likes, report, item, creator, image, tags,time }:ContentProps) {
 
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
   // const [time, setTime] = useState("");
@@ -41,6 +41,8 @@ const [openTip, setOpenTip] = useState(false);
   );
   const signer = useAppSelector((state) => state.connectReducer.value.signer);
 
+  console.log("creat", creator);
+  
   const data = async () => {
     if (contract !== null) {
       const response = await contract.myLikePost(item, adderess);
@@ -96,19 +98,20 @@ const [openTip, setOpenTip] = useState(false);
 
     if(time){
       
-      let date = timeAgoFromDB(time);
+      const date = timeAgoFromDB(time);
       setCurrentTime(date)
      
       
   
     }
-  }, [ content, image, item,  time, ]);
+  }, [ content, image, item,  time,data ]);
 
   return (
     <div className="" >
 
     <section className="w-[50%] border-b-[1px] boreder-b-[#98A2B3] mx-auto pb-[12px]">
       <div className="flex gap-2">
+        {error}
         <h2 className="text-[17px] leading-[25.5px] tracking-[0.5%] text-[#505050]">
           @{Number(creator)}
         </h2>

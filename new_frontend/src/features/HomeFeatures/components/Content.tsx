@@ -15,8 +15,8 @@ interface ContentProps{
  
   hash: any,
   likes: any,
-  report: Number,
-  item: Number,
+  report: number,
+  item: number,
   creator:any,
 }
 export default function Content({ hash, likes, report, item, creator }:ContentProps) {
@@ -50,6 +50,8 @@ const [openTip, setOpenTip] = useState(false);
 
   const LikePost = async () => {
     if (signer) {
+      console.log("clicked");
+      
       const contractInteract = new Contract(
         contractAddress,
         contractABI,
@@ -60,6 +62,7 @@ const [openTip, setOpenTip] = useState(false);
       console.log("LikedPost", tx.hash);
 
       await tx.wait();
+      alert("post liked");
       console.log("Like tx mined");
     } else {
       setError("Connect Your Wallet");
@@ -71,7 +74,7 @@ const [openTip, setOpenTip] = useState(false);
       const response = await axios.get(
         `https://gateway.lighthouse.storage/ipfs/${hash}`,
       );
-      console.log(response.data);
+      // console.log(response.data);
 
       setContent(response.data?.content);
       setImage(response.data?.image);
@@ -116,13 +119,13 @@ const [openTip, setOpenTip] = useState(false);
     }
     if(time){
       
-      let date = timeAgoFromDB(time);
+      const date = timeAgoFromDB(time);
       setCurrentTime(date)
      
       
   
     }
-  }, [hash, content, image, item,  time, fetchData]);
+  }, [hash, content, image, item,  time, fetchData, data]);
 
   return (
     <div key={item.toString()} className="">

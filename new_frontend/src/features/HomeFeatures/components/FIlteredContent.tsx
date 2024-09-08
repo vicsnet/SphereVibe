@@ -44,7 +44,7 @@ const [openTip, setOpenTip] = useState(false);
   const data = async () => {
     if (contract !== null) {
       const response = await contract.myLikePost(item, adderess);
-      console.log("rr", response);
+      // console.log("rr", response);
 
       setLikeStatus(response);
     }
@@ -62,6 +62,7 @@ const [openTip, setOpenTip] = useState(false);
       console.log("LikedPost", tx.hash);
 
       await tx.wait();
+      alert("post liked")
       console.log("Like tx mined");
     } else {
       setError("Connect Your Wallet");

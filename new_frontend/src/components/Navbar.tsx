@@ -89,9 +89,9 @@ export default function Navbar() {
   return (
     <main className="w-[100%] ">
       <section className="w-[100%] h-[110px] flex justify-between items-center px-24 bg-[#F3F9FF]">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-8">
 
-        <Image src="/logo.svg" alt="Logo" width={200} height={44.85} />
+        <Image src="/logo.svg" alt="Logo" width={44} height={44.85} />
 
         <ul className="flex items-center gap-8">
           <li onClick={()=>dispatch(disable(true))} className={`text-[17px] font-medium leading-[25.5px] tracking-[0.5%] text-[#061D33]  cursor-pointer hover:border-b-[#061D33] ${AllStatus === true && "border-b-[1px] cursor-pointer border-b-[#061D33] "}`}>
