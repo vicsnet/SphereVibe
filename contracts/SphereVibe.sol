@@ -43,7 +43,12 @@ contract SphereVibe is Permissioned {
   }
 
 
-  // create post
+ 
+  /**
+  * @notice function to create post
+  * @param _content the url of the content
+  * @param _creator the Fhe encripted addresss of the creator
+   */
   function createPost(string memory _content, eaddress _creator) external {
     uint256 id = postId++;
     Post memory post = myPost[id];
@@ -55,6 +60,12 @@ contract SphereVibe is Permissioned {
 
 
 // tip post
+/**
+* @notice function to tip a particular post
+* @param postId_ the id of the post to be tipped
+* @param tipAmount_ the FHE encryted value of the amount 
+* @param token_ the address of the token needed to be tipped 
+*/ 
   function tip(uint256 postId_, euint256 tipAmount_, address token_) external {
     Post storage post = myPost[postId_];
     address creator = FHE.decrypt(post.creator);
@@ -69,16 +80,21 @@ contract SphereVibe is Permissioned {
   }
 
 
-  // like post
+  /**
+   * @notice function like post
+   * @param postId_ the Id of the post to be liked 
+  */
   function likePost(uint256 postId_) external {
     Post storage post = myPost[postId_];
     post.likes = post.likes + 1;
   }
 
 
-  // flag Post
-  // to flag post you must have 15% credibility
-
+/**
+* @notice function flag Post
+* @notice to flag post you must have 15% credibility
+* @param postId_ Id of the post to be flagged 
+ */
   function flagPost(uint256 postId_) external {
     eaddress flagger = FHE.asEaddress(msg.sender);
     uint256 percent = (15 * totalCredibility) / 100;
@@ -88,7 +104,12 @@ contract SphereVibe is Permissioned {
   }
 
 
-  // withdrawTip
+  /**
+  * @notice function withdrawTip
+  * @param amount to be withdrawn from the contract
+  * @param token_ address of the token to be withdraw 
+
+   */
   function withdrawTip(uint256 amount_, address token_) external {
     uint256 balances = totalTips[msg.sender];
     require(amount_ <= balances, "Insufficient Tip");
@@ -100,7 +121,12 @@ contract SphereVibe is Permissioned {
     totalTips[msg.sender] -= amount_;
   }
 
-  //   myTotalTip
+/**
+* @notice function myTotalTip
+* @notice returns all tips in the contract
+* @param Perm the public key parameters to use to unlock the content 
+ */
+  
   function myAllTips(
     Permission calldata perm,
     address tipped
@@ -108,7 +134,12 @@ contract SphereVibe is Permissioned {
     return totalTips[tipped];
   }
 
-  // read single post
+  /**
+  *  @notice read single post
+  * @notice returns the conntent of single post
+  * @param Perm the public key parameters to use to unlock the content
+  * @param postId_ id of the post to be viewed
+  */ 
   function readSinglePost(
     Permission calldata perm,
     uint256 postId_
@@ -130,7 +161,11 @@ contract SphereVibe is Permissioned {
     return (contents, post.likes, post.report, post.tips, post.creator);
   }
 
-  // read all post
+  /**
+  *  @notice read all post
+  * @notice returns the conntent of all post on the contract
+  * @param Perm the public key parameters to use to unlock the content
+  */ 
 
   function readAllPost(
     Permission calldata perm
@@ -160,13 +195,20 @@ contract SphereVibe is Permissioned {
     return (contents, likes, reports);
   }
 
-  // if post is flagged hash the content
+  /**
+  *  @notice flag post status
+  * @notice only contract owner can flag  post
+  * @param postId_ id of the post to be flagged
+  */ 
   function flagPostStatus(uint256 postId_) external onlyOwner {
     Post storage post = myPost[postId_];
     post.flagged = true;
   }
 
-  //   set total report post need
+  /**
+  *  @notice set total report needed to flag a post
+  * @param totalReport the total report a content  needs to flag a post
+  */ 
   function setTotalReport(uint256 totalReport_) public onlyOwner {
     totalReport = totalReport_;
   }
