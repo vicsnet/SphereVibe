@@ -8,7 +8,7 @@ import tokenABI from "../../../contracts/tokenABI.json";
 import { FhenixClient, SupportedProvider } from "fhenixjs";
 
 interface TipFormProps {
-  id:number,
+  id:Number,
   close: () => void;  
 }
 export default function TipForm({id, close}: TipFormProps) {

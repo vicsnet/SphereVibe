@@ -16,7 +16,7 @@ interface ContentProps{
     content: any,
   likes: any,
   report: Number,
-  item: Number,
+  item: number,
   creator:any,
   image:string,
   tags:string[],
